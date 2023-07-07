@@ -4,6 +4,7 @@ import catchAsynError from "../middleware/catchAsynError.js";
 import ApiFeatures from "../utils/apifeatures.js";
 
 import { v2 } from "cloudinary";
+import categoryModel from "../models/categoryModel.js";
 
 export const createProduct = catchAsynError(async (req, res, next) => {
     let images = [];
@@ -67,6 +68,22 @@ export const getAdminProducts = catchAsynError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         products,
+    });
+});
+export const getAdminCategory = catchAsynError(async (req, res, next) => {
+    const category = await categoryModel.find();
+
+    res.status(200).json({
+        success: true,
+        category,
+    });
+});
+export const createAdminCategory = catchAsynError(async (req, res, next) => {
+    await categoryModel.create(req.body);
+    const categories = await categoryModel.find()
+    res.status(200).json({
+        success: true,
+        categories,
     });
 });
 export const updateProduct = catchAsynError(async (req, res, next) => {
